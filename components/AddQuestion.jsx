@@ -1,28 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Choice from './Choice';
 
-const AddQuestion = ({ saveQuestion }) => {
-  const [title, setTitle] = useState('');
-  const [choices, setChoices] = useState([]);
-
-  const addChoices = () => {
-    setChoices([{ text: '', type: '' }, { text: '', type: '' }]);
-  };
-
-  const handleChoiceChange = (index, choice) => {
-    const newChoices = [...choices];
-    newChoices[index] = choice;
-    setChoices(newChoices);
-  };
-
-  const handleSave = () => {
-    saveQuestion({ title, choices });
-    setTitle('');
-    setChoices([]);
-  };
-
+const AddQuestion = ({ title, setTitle, choices, addChoices, handleChoiceChange, saveQuestion }) => {
   return (
     <div>
       <Input
@@ -46,7 +27,7 @@ const AddQuestion = ({ saveQuestion }) => {
         </div>
       )}
       {choices.every(c => c.text && c.type) && (
-        <Button onClick={handleSave} className="mt-4 dark">Save</Button>
+        <Button onClick={() => saveQuestion({ title, choices })} className="mt-4 dark">Save</Button>
       )}
     </div>
   );

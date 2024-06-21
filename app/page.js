@@ -7,9 +7,24 @@ import AddQuestion from '@/components/AddQuestion';
 export default function HomePage() {
   const [questions, setQuestions] = useState([]);
   const [modalOpen, setModalOpen] = useState(true);
+  const [title, setTitle] = useState('');
+  const [choices, setChoices] = useState([]);
 
   const saveQuestion = (question) => {
     setQuestions([...questions, question]);
+    setTitle('');
+    setChoices([]);
+    setModalOpen(false);
+  };
+
+  const addChoices = () => {
+    setChoices([{ text: '', type: '' }, { text: '', type: '' }]);
+  };
+
+  const handleChoiceChange = (index, choice) => {
+    const newChoices = [...choices];
+    newChoices[index] = choice;
+    setChoices(newChoices);
   };
 
   return (
@@ -20,7 +35,14 @@ export default function HomePage() {
       {modalOpen && (
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
           <DialogContent>
-            <AddQuestion saveQuestion={saveQuestion} />
+            <AddQuestion
+              title={title}
+              setTitle={setTitle}
+              choices={choices}
+              addChoices={addChoices}
+              handleChoiceChange={handleChoiceChange}
+              saveQuestion={saveQuestion}
+            />
           </DialogContent>
         </Dialog>
       )}
@@ -28,4 +50,3 @@ export default function HomePage() {
     </div>
   );
 }
-
